@@ -10,6 +10,9 @@ async function bootstrap() {
             // For Casting request objs into DTO's instances in controllers
             // transform: true,
             forbidNonWhitelisted: true,
+            transformOptions: {
+                enableImplicitConversion: true,
+            },
         }),
     );
     await app.listen(3000);
