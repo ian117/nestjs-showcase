@@ -11,7 +11,7 @@ import { CoffeesController } from './coffees.controller';
 
 @Module({
     controllers: [CoffeesController],
-    exports: [],
+    exports: [CoffeesService],
     imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
     providers: [CoffeesService],
 })
