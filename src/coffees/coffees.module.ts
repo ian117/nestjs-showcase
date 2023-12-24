@@ -5,6 +5,7 @@ import {
     COFFEE_BRANDS,
     COFFEE_BRANDS_FACTORY_LAMBDA,
     COFFEE_BRANDS_FACTORY_INJECT,
+    COFFEE_BRANDS_ASYNC,
 } from './coffees.constants';
 
 import { Coffee } from './entities/coffee.entity';
@@ -14,6 +15,7 @@ import { Event } from '../events/entities/event.entity';
 import { CoffeesService } from './coffees.service';
 
 import { CoffeesController } from './coffees.controller';
+import { Connection } from 'typeorm';
 
 /*  Class Providers are ideal for  ConfigServices for example */
 class ConfigService {}
@@ -61,6 +63,19 @@ export class CoffeeBrandsFactory {
             useFactory: (brandsFactory: CoffeeBrandsFactory) =>
                 brandsFactory.create(), // will return the array
             inject: [CoffeeBrandsFactory],
+        },
+        /* Async Factory */
+        /* Solo tenemos que pasar una promesa y resolverla */
+        {
+            provide: COFFEE_BRANDS_ASYNC,
+            useFactory: async (connection: Connection) => {
+                const coffeeBrands = await Promise.resolve([
+                    'DR COFFE CARNAGE',
+                    'Calm Coffe Heaven',
+                ]);
+                return coffeeBrands; // Now we will able to inject this in any service too
+            },
+            inject: [Connection],
         },
     ],
 })
