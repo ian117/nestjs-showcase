@@ -12,6 +12,7 @@ import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dyo/pagination-query.dyo';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CoffeesService {
@@ -22,6 +23,7 @@ export class CoffeesService {
         private readonly flavorRepository: Repository<Flavor>,
         private readonly dataSource: DataSource,
         @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+        private readonly configService: ConfigService,
     ) {
         console.log(coffeeBrands);
     }
