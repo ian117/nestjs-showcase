@@ -1,4 +1,10 @@
-import { Injectable, Module } from '@nestjs/common';
+import {
+    Injectable,
+    MiddlewareConsumer,
+    Module,
+    NestModule,
+    RequestMethod,
+} from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
@@ -17,6 +23,9 @@ import { CoffeesService } from './coffees.service';
 
 import { CoffeesController } from './coffees.controller';
 import { Connection } from 'typeorm';
+
+import { LoggerMiddleware } from './middlewares/coffees.middleware';
+import { logger } from './middlewares/logger-middleware2.middleware';
 
 /*  Class Providers are ideal for  ConfigServices for example */
 class ConfigService {}
@@ -80,4 +89,12 @@ export class CoffeeBrandsFactory {
         },
     ],
 })
-export class CoffeesModule {}
+export class CoffeesModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(LoggerMiddleware)
+            .forRoutes({ path: 'coffees', method: RequestMethod.GET })
+            .apply(logger)
+            .forRoutes({ path: 'coffees/:id', method: RequestMethod.GET });
+    }
+}
