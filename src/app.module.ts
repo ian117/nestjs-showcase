@@ -6,12 +6,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
+import { ExtendedFilter } from './common/filters/extended.filter';
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             // envFilePath
+            isGlobal: true,
             validationSchema: Joi.object({
+                NODE_ENV: Joi.string()
+                    // .required()
+                    .default('development')
+                    .valid('development', 'test', 'production'),
                 DATABASE_HOST: Joi.required(),
                 DATABASE_PORT: Joi.number().default(5432),
             }),
@@ -30,6 +36,12 @@ import * as Joi from '@hapi/joi';
         CoffeeRatingModule,
     ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [
+        AppService,
+        {
+            provide: 'APP_FILTER',
+            useClass: ExtendedFilter,
+        },
+    ],
 })
 export class AppModule {}
