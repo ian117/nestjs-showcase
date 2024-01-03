@@ -30,8 +30,8 @@ import { ExtendedFilter } from './common/filters/extended.filter';
             username: process.env.DATABASE_USER, // username
             password: process.env.DATABASE_PASSWORD, // user password
             database: process.env.DATABASE_NAME, // name of our database,
-            autoLoadEntities: true, // models will be loaded automatically
-            synchronize: true, // your entities will be synced with the database(recommended: disable in prod)
+            autoLoadEntities: false, // models will be loaded automatically
+            synchronize: false, // your entities will be synced with the database(recommended: disable in prod)
         }),
         CoffeeRatingModule,
     ],
