@@ -7,6 +7,8 @@ import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import { ExtendedFilter } from './common/filters/extended.filter';
+import { MongoCoffeesModule } from './mongo-coffees/mongo-coffees.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
     imports: [
@@ -23,6 +25,7 @@ import { ExtendedFilter } from './common/filters/extended.filter';
             }),
         }),
         CoffeesModule,
+        MongooseModule.forRoot('mongodb://localhost:27017/nest-course'),
         TypeOrmModule.forRoot({
             type: 'postgres', // type of our database
             host: process.env.DATABASE_HOST, // database host
@@ -34,6 +37,7 @@ import { ExtendedFilter } from './common/filters/extended.filter';
             synchronize: false, // your entities will be synced with the database(recommended: disable in prod)
         }),
         CoffeeRatingModule,
+        MongoCoffeesModule,
     ],
     controllers: [AppController],
     providers: [
