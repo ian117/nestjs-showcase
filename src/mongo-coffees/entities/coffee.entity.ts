@@ -9,6 +9,9 @@ export class MongoCoffee extends Document {
     @Prop()
     brand: string;
 
+    @Prop({ default: 0 })
+    recommendations: number;
+
     @Prop([String])
     flavors: string[];
 }
